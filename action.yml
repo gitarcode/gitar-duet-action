@@ -1,0 +1,20 @@
+name: 'Gitar Duet Action'
+description: 'Automates the Gitar Duet process for pull requests'
+inputs:
+  github-token:
+    description: 'GitHub token for authentication. Make sure it has `content:write` scope.'
+    default: ${{ github.token }}
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        if [[ -n $(git status --porcelain) ]]; then
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -am "Gitar Duet for #${{ github.event.pull_request.number }}"
+          git checkout -b gitar_duet_${{ github.event.pull_request.number }}
+          git push origin gitar_duet_${{ github.event.pull_request.number }}
+        else
+          echo "No changes to commit"
+        fi
+      if: startsWith(github.actor, 'gitar-bot') && startsWith(github.event.pull_request.user.login, 'gitar-bot')
