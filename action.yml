@@ -26,3 +26,7 @@ runs:
         fi
       shell: bash
       if: github.event.head_commit.author.name == 'Gitar' && steps.duet.outputs.pull_request_number != ''
+    - run: |
+        echo "Skipping Gitar Duet Action"
+      shell: bash
+      if: github.event.head_commit.author.name != 'Gitar' || steps.duet.outputs.pull_request_number == ''
