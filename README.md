@@ -21,7 +21,7 @@ Make sure to include this step after any steps that modify files in your reposit
 ## Inputs
 
 - `github-token`: The GitHub token used for authentication. By default, it uses the `github.token` provided by the GitHub Actions runner.
-- Make sure the action has `content:write` permission scope. See [example](#example-workflow)
+- Make sure the action has `content:write` permission scope and `pull-requests:read` permission (if not already provided). See [example](#example-workflow)
 
 ## Example Workflow
 
@@ -40,6 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Gitar Duet
     permissions:
+      pull-requests: read
       contents: write
 
     steps:
