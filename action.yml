@@ -1,7 +1,7 @@
 name: 'Gitar Duet Action'
 description: 'Automates the Gitar Duet process for pull requests'
 inputs:
-  token:
+  github-token:
     description: 'GitHub token for authentication. Make sure it has `content:write` scope.'
     default: ${{ github.token }}
   verbose:
@@ -13,10 +13,13 @@ runs:
     - name: Get Pull Request Number
       id: duet
       run: |
+        if [[ ${{ inputs.verbose }} == true ]]; then
+          git --no-pager log -1 HEAD
+        fi
         echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
       shell: bash
       env:
-        GITHUB_TOKEN: ${{ inputs.token }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
     - run: |
         if [[ ${{ inputs.verbose }} == true ]]; then
           set -x
