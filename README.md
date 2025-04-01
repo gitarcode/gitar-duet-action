@@ -36,7 +36,7 @@ on:
 
 jobs:
   gitar-duet:
-    if: startsWith(github.actor, 'gitar-bot') && startsWith(github.event.pull_request.user.login, 'gitar-bot')
+    if: github.event.head_commit.author.name == 'Gitar'
     runs-on: ubuntu-latest
     name: Gitar Duet
     permissions:
